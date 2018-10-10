@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.f.dao.UserMapper">
+<!-- 根据用户名和密码查询用户 -->
+    <select id="findUser" parameterType="String" resultType="com.f.pojo.User">
+	    select *
+	    from user
+	    where username = #{username}
+	    and password =#{password}
+    </select>
+    
+<!-- 注册用户 -->
+    <insert id="addUser" parameterType="com.f.pojo.User">
+    	insert into user(username,password,tel) values(#{username},#{password},#{tel})
+    </insert>
+    
+<!--更新用户信息 -->
+    <update id="updateUser">
+        update user set username=#{username} , password=#{password} , tel=#{tel} , name=#{name},
+        sex=#{sex} , city=#{city} , brithday=#{brithday} , uimg=#{uimg}
+        where id=#{id}
+    </update>
+
+<!-- 根据用户查询所有好友   -->
+		<select id="queryAllFriends" resultMap="FriendWithUserResult">
+			select u.*, f.id as fid,f.fname as fname
+			from user u ,friend f,user_friend uf
+			where uf.uid =u.id
+			and uf.fid =f.id
+			and u.id = #{uid}
+		</select>
+		<resultMap type="com.f.pojo.User" id="FriendWithUserResult">
+		<id property="id" column="id"/>
+		<result property="username" column="username"/>
+		<result property="password" column="password"/>
+		<collection property="friends" ofType="com.f.pojo.Friend">
+			<id property="id" column="fid"/>
+			<result property="fname" column="fname"/>
+			<result property="fimg" column="fimg"/>
+		 </collection>
+	</resultMap>  
+
+<!--根据用户添加好友 -->
+	<insert id="addUser_f">
+			insert into user_friend(uid,fid) values (#{uid},#{fid})	 
+	</insert>
+
+<!-- 根据用户删除好友 -->
+	<delete id="deleteUser_f">
+			delete from user_friend where fid=#{fid} and uid=#{uid}
+	</delete>
+
+<!-- 发表说说 -->
+	<insert id="addBlog" parameterType="com.f.pojo.Blog" useGeneratedKeys="true" keyProperty="id">
+		insert into blog(contactus,bimg) values (#{contactus},#{bimg})
+	</insert>
+	<insert id="addUser_b">
+			insert into user_blog(uid,bid) values (#{uid},#{bid})	 
+	</insert>
+
+<!-- 根据用户查询所有博客   -->
+		<select id="queryAllBlogs" resultMap="BlogWithUserResult">
+			select u.*, b.id as bid,b.contactus as contactus,b.bimg as bimg
+			from user u ,blog b,user_blog ub
+			where ub.uid =u.id
+			and ub.bid =b.id
+			and u.id = #{uid}
+		</select>
+		<resultMap type="com.f.pojo.User" id="BlogWithUserResult">
+		<id property="id" column="id"/>
+		<result property="username" column="username"/>
+		<result property="password" column="password"/>
+		<collection property="blogs" ofType="com.f.pojo.Blog">
+			<id property="id" column="bid"/>
+			<result property="contactus" column="contactus"/>
+			<result property="bimg" column="bimg"/>
+		 </collection>
+	</resultMap>  
+
+
+<!-- 根据用户查询所有博客2 -->
+<!-- user_blog表获取blog表id -->
+    <select id="queryBlogId" resultType="String">
+            select bid from user_blog where uid=#{uid}
+    </select>
+    <select id="queryUserId" resultType="String">
+            select uid from user_blog where bid=#{bid}
+    </select>
+    <select id="queryName" resultType="String">
+            select name from user where id=#{id}
+    </select>
+    <select id="cqueryAllBlog" resultType="com.f.pojo.Blog">
+            select * from blog where id=#{bid}
+    </select>
+    <select id="cqueryAllBlogs" resultType="com.f.pojo.Blog">
+           select * from blog
+    </select>
+    
+
+<!-- 删除博客 -->
+    <delete id="delBlog">
+           delete from blog where id=#{bid}
+    </delete>
+    <delete id="delUserBlog">
+           delete from user_blog where bid=#{bid}
+    </delete>
+
+
+
+<!-- 根据名字查询好友-->
+    <select id="findFriendByName" parameterType="com.f.pojo.Friend" resultType="com.f.pojo.Friend">
+
+	    select * from friend where fname = #{fname}
+    </select>
+    
+<!-- 根据id查询 -->
+	<select id="findFriendById" resultType="com.f.pojo.Friend">
+		select * from friend where id=#{id}
+	</select>
+	  
+<!-- 根据id查询好友 -->
+	<select id="numberFriendByFid" resultType="String">
+		select uid from user_friend where fid=#{fid}
+	</select>
+	<select id="numberFriendByUid" resultType="String">
+		select fid from user_friend where uid=#{uid}
+	</select>
+	  
+</mapper>

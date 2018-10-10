@@ -1,0 +1,90 @@
+/* ul li以横排显示 */
+
+/* 所有class为menu的div中的ul样式 */
+div.menu ul
+{
+    list-style:none; /* 去掉ul前面的符号 */
+    margin: 0px; /* 与外界元素的距离为0 */
+    padding: 0px; /* 与内部元素的距离为0 */
+    width: auto; /* 宽度根据元素内容调整 */
+}
+/* 所有class为menu的div中的ul中的li样式 */
+div.menu ul li
+{
+    float:left; /* 向左漂移，将竖排变为横排 */
+}
+/* 所有class为menu的div中的ul中的a样式(包括尚未点击的和点击过的样式) */
+div.menu ul li a, div.menu ul li a:visited
+{
+    background-color: #465c71; /* 背景色 */
+    border: 1px #4e667d solid; /* 边框 */
+    color: #dde4ec; /* 文字颜色 */
+    display: block; /* 此元素将显示为块级元素，此元素前后会带有换行符 */
+    line-height: 1.35em; /* 行高 */
+    padding: 4px 20px; /* 内部填充的距离 */
+    text-decoration: none; /* 不显示超链接下划线 */
+    white-space: nowrap; /* 对于文本内的空白处，不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止。 */
+}
+/* 所有class为menu的div中的ul中的a样式(鼠标移动到元素中的样式) */
+div.menu ul li a:hover
+{
+    background-color: #bfcbd6; /* 背景色 */
+    color: #465c71; /* 文字颜色 */
+    text-decoration: none; /* 不显示超链接下划线 */
+}
+/* 所有class为menu的div中的ul中的a样式(鼠标点击元素时的样式) */
+div.menu ul li a:active
+{
+    background-color: #465c71; /* 背景色 */
+    color: #cfdbe6; /* 文字颜色 */
+    text-decoration: none; /* 不显示超链接下划线 */
+}
+
+
+/*搜索框样式*/
+.bar {
+    height: 44px; padding: 0 10px;
+    background-color: #ffffff;
+    caret-color: #ffffff;
+    z-index: 10;
+}
+.bar form {
+    display: block; padding: 0;margin: 0;
+}
+.search-row {
+    position: relative;
+    height: 30px; padding: 7px 0;
+}
+.search-row input[type=search] {
+    position: absolute; top: 7px;
+    height: 30px; line-height: 21px; width: 100%; padding: 10px 15px 10px 30px;
+    border: 0; border-radius: 6px; outline: 0; background-color: rgba(0,0,0,0.3);
+    font-size: 16px; text-align: center;
+    z-index: 100;
+}
+.search-row .placeholder {
+    position: absolute; top: 2px; left: 0; right: 0;
+    display: inline-block; height: 34px; line-height: 34px;
+    border: 0; border-radius: 6px;
+    font-size: 16px; text-align: center; color: #000000;
+    z-index: 1;
+}
+.search-row .placeholder .iconfont {
+    display: inline-block; width: 19px; line-height: 24px; padding: 10px 0;
+    font-size: 21px; color: #ffffff;
+}
+.search-row .placeholder .text {
+    line-height: 40px;
+    vertical-align: top;
+}
+.active:before {
+    position: absolute; top: 11px; left: 5px; right: auto;
+    display: block; margin-right: 0;
+    font-size: 21px;
+}
+.active input[type=search] {
+    text-align: left
+}
+.active .placeholder{
+    display: none
+}
